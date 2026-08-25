@@ -2,6 +2,7 @@ import { defineConfig } from 'vitepress'
 import mathjax3 from 'markdown-it-mathjax3'
 
 export default defineConfig({
+  base: '/my-blog/',
   title: "个人技术博客",
   description: "记录学习过程与项目沉淀",
   
