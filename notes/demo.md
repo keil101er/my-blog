@@ -14,6 +14,6 @@ $$
 
 ## 2. 插入本地图片
 
-将图片文件放到项目根目录的 `public/images/` 目录下（例如 `public/images/test.png`），在 Markdown 中直接使用相对根目录路径引用：
+图片文件位于项目根目录的 `images/` 目录中，文章使用相对路径引用资源：
 
-![架构示意图](/images/code.png)
+![架构示意图](../images/code.png)
