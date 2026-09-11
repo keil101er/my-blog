@@ -1,0 +1,89 @@
+.blog-video {
+  width: 100%;
+  max-width: 800px;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  display: block;
+  margin: 20px auto;
+  background: #000;
+}
+.blog-img {
+  width: 50%;
+  height: auto;
+  display: block;
+  margin: 20px auto;
+}
+
+/* RoboMaster 文章头图 / Article hero banner */
+.rm-hero {
+  position: relative;
+  overflow: hidden;
+  margin: 32px 0 40px;
+  padding: 48px clamp(24px, 6vw, 72px);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 20px;
+  color: #fff;
+  background:
+    radial-gradient(circle at 85% 15%, rgba(92, 183, 255, 0.35), transparent 30%),
+    linear-gradient(135deg, #0c1b33 0%, #123f63 52%, #197c89 100%);
+  box-shadow: 0 18px 45px rgba(12, 42, 69, 0.2);
+}
+
+.rm-hero::after {
+  position: absolute;
+  right: -10%;
+  bottom: -75%;
+  width: 55%;
+  height: 190%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  content: '';
+  transform: rotate(-18deg);
+}
+
+.rm-hero__eyebrow,
+.rm-hero__desc {
+  position: relative;
+  z-index: 1;
+  letter-spacing: 0.12em;
+}
+
+.rm-hero__eyebrow {
+  margin-bottom: 16px;
+  color: #91ddff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.rm-hero__title {
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+  font-size: clamp(30px, 5vw, 54px);
+  font-weight: 800;
+  line-height: 1.18;
+}
+
+.rm-hero__desc {
+  position: relative;
+  z-index: 1;
+  margin-top: 24px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+
+@media (max-width: 640px) {
+  .blog-img {
+    width: 100%;
+  }
+
+  .rm-hero {
+    margin-top: 24px;
+    padding: 32px 24px;
+  }
+
+  .rm-hero__desc {
+    line-height: 1.8;
+  }
+}

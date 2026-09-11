@@ -18,17 +18,16 @@ export default defineConfig({
     // 顶部导航栏
     nav: [
       { text: '首页', link: '/' },
-      { text: '技术笔记', link: '/notes/demo' }
+      { text: '比赛回顾', link: '/notes/RoboMasterReview' }
     ],
 
     // 左侧目录侧边栏
     sidebar: {
       '/notes/': [
         {
-          text: '学习记录',
+          text: '比赛回顾',
           items: [
-            { text: '开始记录', link: '/notes/getting-started' },
-            { text: '公式与图文测试', link: '/notes/demo' }
+            { text: 'RoboMaster 比赛回顾', link: '/notes/RoboMasterReview' }
           ]
         }
       ]
