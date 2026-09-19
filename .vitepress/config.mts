@@ -35,7 +35,17 @@ export default defineConfig({
         {
           text: '学习记录',
           items: [
-            { text: '电机控制算法', link: '/notes/MotorControlAlgorithm' }
+            {
+              text: '电机控制学习',
+              link: '/notes/MotorControlAlgorithm',
+              collapsed: true,
+              items: [
+                { text: 'FOC 控制链路', link: '/notes/MotorControlFOC' },
+                { text: 'Simulink 代码生成', link: '/notes/SimulinkCodeGeneration' },
+                { text: '磁链观测器与 PLL', link: '/notes/SensorlessFOCObserver' },
+                { text: 'LESO 速度环抗扰', link: '/notes/LESOSpeedControl' }
+              ]
+            }
           ]
         },
         {
