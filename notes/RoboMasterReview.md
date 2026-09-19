@@ -5,12 +5,12 @@ description: 从嵌入式入门到机器人赛场，记录一次关于控制、�
 
 # RoboMaster 比赛回顾
 
-> 这不仅是一篇比赛总结，也是我大学前半程的一次阶段性复盘。  
-> 我从一块 STM32 开发板开始，逐步走进机器人实验室，经历了从“能让车动起来”到“在比赛压力下定位系统问题”的过程。
+> 这不仅是一篇比赛总结，也是我大一大二的一次阶段性复盘。  
+> 从一块 STM32 开发板开始，逐步走进机器人实验室，经历了了很多也学习了很多。
 
 <div class="rm-hero">
   <div class="rm-hero__eyebrow">AURORA · 2025.09 — 2026.06</div>
-  <div class="rm-hero__title">把机器人调到<br>能上场的状态。</div>
+  <div class="rm-hero__title">初心高于胜负<br>成长胜于输赢。</div>
   <div class="rm-hero__desc">步兵嵌入式算法研发 · 底盘控制 · 云台力控 · 整机联调</div>
 </div>
 
@@ -47,13 +47,10 @@ description: 从嵌入式入门到机器人赛场，记录一次关于控制、�
 
 后来这些内容也成了我在队里负责嵌入式算法研发的基础。回头看，最有用的不是一次考核的结果，而是开始习惯把问题拆开，逐项验证。
 
-<video src="/video/first_project.mp4" controls class="blog-video"></video>
 
 ## 02 · 备赛：把知识变成可运行的系统
 
 进入 Aurora 战队后，我先从已有代码和硬件连接关系看起，再按学习计划补线性代数、控制理论和实时系统。队伍的代码以 FreeRTOS 为基础，按 BSP、Components 和 Application 任务层组织，CAN、SPI 和串口 DMA 驱动被封装在底层和中间件中。熟悉这套结构后，调一个功能时不必从整份工程里寻找入口，和机械、视觉组联调也更容易对齐接口。
-
-<img src="/images/StudyRecord.jpg" alt="备赛期间的学习记录" class="blog-img">
 
 ### 第一个完整任务：让机器人跳上 200 mm 台阶
 
