@@ -51,7 +51,7 @@ export default defineConfig({
         {
           text: '项目实践',
           items: [
-            { text: '镇江星驰智行软件有限公司实习记录', link: '/notes/ZhenJiangInternship' }
+             
           ]
         }
       ]

@@ -23,5 +23,5 @@ features:
     link: /notes/MotorControlAlgorithm
   - title: 项目实践
     details: 回顾参与过的项目、实习和经历。
-    link: /notes/ZhenJiangInternship
+    link: /notes/RoboMasterReview
 ---
