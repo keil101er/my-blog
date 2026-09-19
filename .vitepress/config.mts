@@ -18,7 +18,9 @@ export default defineConfig({
     // 顶部导航栏
     nav: [
       { text: '首页', link: '/' },
-      { text: '比赛回顾', link: '/notes/RoboMasterReview' }
+      { text: '比赛回顾', link: '/notes/RoboMasterReview' },
+      { text: '学习记录', link: '/notes/MotorControlAlgorithm' },
+      { text: '项目实践', link: '/notes/ZhenJiangInternship' }
     ],
 
     // 左侧目录侧边栏
@@ -28,6 +30,18 @@ export default defineConfig({
           text: '比赛回顾',
           items: [
             { text: 'RoboMaster 比赛回顾', link: '/notes/RoboMasterReview' }
+          ]
+        },
+        {
+          text: '学习记录',
+          items: [
+            { text: '电机控制算法', link: '/notes/MotorControlAlgorithm' }
+          ]
+        },
+        {
+          text: '项目实践',
+          items: [
+            { text: '镇江星驰智行软件有限公司实习记录', link: '/notes/ZhenJiangInternship' }
           ]
         }
       ]

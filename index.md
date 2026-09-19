@@ -10,15 +10,15 @@ hero:
     - theme: brand
       text: 开始阅读
       link: /notes/RoboMasterReview
-    - theme: alt
-      text: 比赛回顾
-      link: /notes/RoboMasterReview
 
 features:
-  - title: 学习记录
-    details: 记录从 STM32 入门到机器人控制实践的学习过程。
-    link: /notes/RoboMasterReview
   - title: 比赛回顾
-    details: 整理 RoboMaster 备赛、调试和赛场中的真实经历。
+    details: 整理RoboMaster备赛、调试和赛场中的真实经历。
     link: /notes/RoboMasterReview
+  - title: 学习记录
+    details: 记录从STM32入门到嵌入式算法的学习过程。
+    link: /notes/MotorControlAlgorithm
+  - title: 项目实践
+    details: 回顾参与过的项目、实习和经历。
+    link: /notes/ZhenJiangInternship
 ---
