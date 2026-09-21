@@ -51,7 +51,15 @@ export default defineConfig({
         {
           text: '项目实践',
           items: [
-             
+            {
+              text: '轮腿机器人控制',
+              link: '/notes/WheelLeggedControlOverview',
+              collapsed: true,
+              items: [
+                { text: 'LQR 建模与增益调度', link: '/notes/WheelLeggedLQR' },
+                { text: '五连杆运动学与 VMC', link: '/notes/WheelLeggedVMC' }
+              ]
+            }
           ]
         }
       ]
