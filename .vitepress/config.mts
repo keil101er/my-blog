@@ -6,6 +6,7 @@ export default defineConfig({
   lang: 'zh-CN',
   title: "个人技术博客",
   description: "记录学习过程与项目沉淀",
+  srcExclude: ['AGENTS.md', 'api-examples.md', 'markdown-examples.md'],
   
   // 开启 LaTeX 数学公式支持
   markdown: {
@@ -20,7 +21,7 @@ export default defineConfig({
       { text: '首页', link: '/' },
       { text: '比赛回顾', link: '/notes/RoboMasterReview' },
       { text: '学习记录', link: '/notes/MotorControlAlgorithm' },
-      { text: '项目实践', link: '/notes/ZhenJiangInternship' }
+      { text: '项目实践', link: '/notes/WheelLeggedControlOverview' }
     ],
 
     // 左侧目录侧边栏
@@ -78,31 +79,44 @@ export default defineConfig({
       text: '在 GitHub 上编辑此页'
     },
 
+    outline: {
+      label: '本页目录'
+    },
+
+    docFooter: {
+      prev: '上一篇',
+      next: '下一篇'
+    },
+
+    darkModeSwitchLabel: '外观',
+    lightModeSwitchTitle: '切换到浅色主题',
+    darkModeSwitchTitle: '切换到深色主题',
+    sidebarMenuLabel: '文章目录',
+    returnToTopLabel: '返回顶部',
+    langMenuLabel: '切换语言',
+    skipToContentLabel: '跳转到正文',
+
     search: {
       provider: 'local',
       options: {
-        locales: {
-          zh: {
-            translations: {
-              button: {
-                buttonText: '搜索',
-                buttonAriaLabel: '搜索'
-              },
-              modal: {
-                displayDetails: '显示详细列表',
-                resetButtonTitle: '清除查询条件',
-                backButtonTitle: '关闭搜索',
-                noResultsText: '无法找到相关结果',
-                footer: {
-                  selectText: '选择',
-                  selectKeyAriaLabel: '回车',
-                  navigateText: '切换',
-                  navigateUpKeyAriaLabel: '向上',
-                  navigateDownKeyAriaLabel: '向下',
-                  closeText: '关闭',
-                  closeKeyAriaLabel: 'ESC'
-                }
-              }
+        translations: {
+          button: {
+            buttonText: '搜索',
+            buttonAriaLabel: '搜索'
+          },
+          modal: {
+            displayDetails: '显示详细列表',
+            resetButtonTitle: '清除查询条件',
+            backButtonTitle: '关闭搜索',
+            noResultsText: '无法找到相关结果',
+            footer: {
+              selectText: '选择',
+              selectKeyAriaLabel: '回车',
+              navigateText: '切换',
+              navigateUpKeyAriaLabel: '向上',
+              navigateDownKeyAriaLabel: '向下',
+              closeText: '关闭',
+              closeKeyAriaLabel: 'ESC'
             }
           }
         }
