@@ -126,4 +126,4 @@ description: 从嵌入式入门到机器人赛场，记录一次关于控制、�
 
 <img src="/images/group_photo.jpg" alt="最后一张合照" class="blog-img">
 
-最后放一张和我共同奋斗了一年的机器人的合照作为本篇的结尾。
+最后放一张和机器人的合照。

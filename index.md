@@ -19,7 +19,7 @@ features:
     details: 整理RoboMaster备赛、调试和赛场中的真实经历。
     link: /notes/RoboMasterReview
   - title: 学习记录
-    details: 整理 FOC、Simulink 代码生成、无感观测与速度环抗扰的学习和实践。
+    details: 整理和记录学习过程中遇到的相关知识。
     link: /notes/MotorControlAlgorithm
   - title: 项目实践
     details: 回顾参与过的项目、实习和经历。

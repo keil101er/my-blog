@@ -46,6 +46,14 @@ export default defineConfig({
                 { text: '磁链观测器与 PLL', link: '/notes/SensorlessFOCObserver' },
                 { text: 'LESO 速度环抗扰', link: '/notes/LESOSpeedControl' }
               ]
+            },
+            {
+              text: '嵌入式学习',
+              link: '/notes/EmbeddedLearningOverview',
+              collapsed: true,
+              items: [
+                { text: '代码架构与分层', link: '/notes/EmbeddedCodeArchitecture' }
+              ]
             }
           ]
         },
