@@ -54,6 +54,16 @@ export default defineConfig({
               items: [
                 { text: '代码架构与分层', link: '/notes/EmbeddedCodeArchitecture' }
               ]
+            },
+            {
+              text: 'C 语言学习',
+              link: '/notes/CLearningOverview',
+              collapsed: true,
+              items: [
+                { text: '函数指针基础', link: '/notes/CFunctionPointers' },
+                { text: '对象封装与接口多态', link: '/notes/CObjectOriented' },
+                { text: '对象生命周期与资源管理', link: '/notes/CObjectLifecycle' }
+              ]
             }
           ]
         },
