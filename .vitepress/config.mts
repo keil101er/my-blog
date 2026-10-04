@@ -62,7 +62,10 @@ export default defineConfig({
               items: [
                 { text: '函数指针基础', link: '/notes/CFunctionPointers' },
                 { text: '对象封装与接口多态', link: '/notes/CObjectOriented' },
-                { text: '对象生命周期与资源管理', link: '/notes/CObjectLifecycle' }
+                { text: '对象生命周期与资源管理', link: '/notes/CObjectLifecycle' },
+                { text: '静态对象数组与对象池', link: '/notes/CStaticObjectsAndPool' },
+                { text: '继承布局与多态调用', link: '/notes/CInheritancePolymorphism' },
+                { text: '单例、深浅拷贝与内存对齐', link: '/notes/CObjectStorage' }
               ]
             }
           ]

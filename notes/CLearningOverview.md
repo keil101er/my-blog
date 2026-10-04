@@ -14,5 +14,8 @@ description: 按函数指针、对象封装与资源管理整理 C 语言学习�
 | [C 语言函数指针基础](/notes/CFunctionPointers) | 函数指针保存操作入口，声明、赋值和调用都要遵守函数类型约定。 |
 | [C 语言对象封装与接口多态](/notes/CObjectOriented) | 函数指针选择实现，`self` 指定对象，不透明指针隐藏内部状态。 |
 | [C 语言对象生命周期与资源管理](/notes/CObjectLifecycle) | 创建、初始化、清理和销毁的职责由资源所有权决定，不由函数名决定。 |
+| [C 语言静态对象数组与对象池](/notes/CStaticObjectsAndPool) | 固定数量用静态数组，频繁创建和回收可用对象池复用内存。 |
+| [C 语言中的继承布局与多态调用](/notes/CInheritancePolymorphism) | 结构体嵌套复用布局，函数指针选择具体实现。 |
+| [C 语言对象存储：单例、深浅拷贝与内存对齐](/notes/CObjectStorage) | 从存储期限、指针所有权和成员布局理解对象复制与访问。 |
 
 初次阅读可以按表中顺序；回顾时直接进入对应主题。
