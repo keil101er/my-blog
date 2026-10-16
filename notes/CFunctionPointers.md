@@ -69,4 +69,4 @@ struct Calculator {
 
 还有一个关键限制：`calculator.calculate(3, 5)` 不会自动把 `calculator` 传给函数。函数如果需要访问对象状态，必须通过明确的参数等途径获得它。这个区别在[对象封装与接口多态](/notes/CObjectOriented)中继续展开。
 
-[返回：C 语言学习](/notes/CLearningOverview)
+[typedef 与函数指针类型别名](/notes/CTypedef) · [返回：C 语言学习](/notes/CLearningOverview)

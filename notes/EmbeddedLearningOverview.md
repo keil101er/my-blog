@@ -23,3 +23,14 @@ description: 按 MCU 外设、工程组织、实时任务与调试分类整理�
 | 文章 | 核心观点 |
 | --- | --- |
 | [嵌入式项目代码架构与分层](/notes/EmbeddedCodeArchitecture) | Drivers 提供芯片基础库，Core 配置当前 MCU，BSP 封装板上设备，APP 实现业务逻辑。 |
+
+### 实时任务
+
+| 文章 | 核心观点 |
+| --- | --- |
+| [FreeRTOS 任务：创建、状态与删除](/notes/FreeRTOSTask) | 任务是独立执行实例；等待条件满足后先就绪，再由调度器选中运行。 |
+| [FreeRTOS 优先级：通用查找与位图优化](/notes/FreeRTOSPrioritySelection) | 两种方法都用于查找最高就绪优先级，不改变抢占和时间片的规则。 |
+| [FreeRTOS 调度：抢占、时间片与空闲任务](/notes/FreeRTOSScheduling) | 高优先级就绪任务可抢占，同级时间片轮换不保证执行时间均分。 |
+| [FreeRTOS 时间：tick 换算与延时精度](/notes/FreeRTOSTiming) | 延时按 tick 计数到期；解除阻塞与再次获得 CPU 是两个时刻。 |
+| [FreeRTOS 队列：任务通信与队列集](/notes/FreeRTOSQueue) | 队列按固定大小复制数据；结合阻塞等待、来源标识和队列集组织任务通信，传指针时明确数据所有权。 |
+| [FreeRTOS 普通接口与 FromISR 接口](/notes/FreeRTOSFromISR) | 按任务或中断上下文选择接口，区分阻塞、唤醒与切换请求，并遵守中断优先级限制。 |

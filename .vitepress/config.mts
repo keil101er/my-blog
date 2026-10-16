@@ -52,7 +52,13 @@ export default defineConfig({
               link: '/notes/EmbeddedLearningOverview',
               collapsed: true,
               items: [
-                { text: '代码架构与分层', link: '/notes/EmbeddedCodeArchitecture' }
+                { text: '代码架构与分层', link: '/notes/EmbeddedCodeArchitecture' },
+                { text: 'FreeRTOS 任务与状态', link: '/notes/FreeRTOSTask' },
+                { text: '优先级查找与位图优化', link: '/notes/FreeRTOSPrioritySelection' },
+                { text: '抢占、时间片与空闲任务', link: '/notes/FreeRTOSScheduling' },
+                { text: 'tick 换算与延时精度', link: '/notes/FreeRTOSTiming' },
+                { text: 'FreeRTOS 队列与队列集', link: '/notes/FreeRTOSQueue' },
+                { text: '普通接口与 FromISR 接口', link: '/notes/FreeRTOSFromISR' }
               ]
             },
             {
@@ -61,6 +67,9 @@ export default defineConfig({
               collapsed: true,
               items: [
                 { text: '函数指针基础', link: '/notes/CFunctionPointers' },
+                { text: 'typedef 与类型别名', link: '/notes/CTypedef' },
+                { text: 'extern 与 static', link: '/notes/CExternStatic' },
+                { text: 'volatile 的作用与边界', link: '/notes/CVolatile' },
                 { text: '对象封装与接口多态', link: '/notes/CObjectOriented' },
                 { text: '对象生命周期与资源管理', link: '/notes/CObjectLifecycle' },
                 { text: '静态对象数组与对象池', link: '/notes/CStaticObjectsAndPool' },
