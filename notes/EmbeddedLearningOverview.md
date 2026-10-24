@@ -34,3 +34,4 @@ description: 按 MCU 外设、工程组织、实时任务与调试分类整理�
 | [FreeRTOS 时间：tick 换算与延时精度](/notes/FreeRTOSTiming) | 延时按 tick 计数到期；解除阻塞与再次获得 CPU 是两个时刻。 |
 | [FreeRTOS 队列：任务通信与队列集](/notes/FreeRTOSQueue) | 队列按固定大小复制数据；结合阻塞等待、来源标识和队列集组织任务通信，传指针时明确数据所有权。 |
 | [FreeRTOS 普通接口与 FromISR 接口](/notes/FreeRTOSFromISR) | 按任务或中断上下文选择接口，区分阻塞、唤醒与切换请求，并遵守中断优先级限制。 |
+| [Cortex-M 中断：从 NVIC 到任务切换](/notes/CortexMInterrupts) | NVIC 管理请求，向量表提供入口；硬件保存基本现场，PendSV 完成任务切换。 |

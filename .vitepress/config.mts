@@ -58,7 +58,8 @@ export default defineConfig({
                 { text: '抢占、时间片与空闲任务', link: '/notes/FreeRTOSScheduling' },
                 { text: 'tick 换算与延时精度', link: '/notes/FreeRTOSTiming' },
                 { text: 'FreeRTOS 队列与队列集', link: '/notes/FreeRTOSQueue' },
-                { text: '普通接口与 FromISR 接口', link: '/notes/FreeRTOSFromISR' }
+                { text: '普通接口与 FromISR 接口', link: '/notes/FreeRTOSFromISR' },
+                { text: 'Cortex-M 中断与任务切换', link: '/notes/CortexMInterrupts' }
               ]
             },
             {
