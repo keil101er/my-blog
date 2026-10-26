@@ -20,7 +20,7 @@ description: 串起异常分类、软件触发、向量表、现场保存与恢�
 
 NVIC（嵌套向量中断控制器）管理外部中断的使能、挂起和优先级。**挂起表示请求正在等待响应，不代表 ISR 已经执行。** 优先级和屏蔽条件允许时，内核才进入 ISR。接口见 [CMSIS NVIC 文档](https://arm-software.github.io/CMSIS_6/main/Core/group__NVIC__gr.html)。
 
-## 软件触发不等于外设事件发生
+## 软件触发
 
 ```c
 NVIC_SetPendingIRQ(USART1_IRQn);
@@ -60,7 +60,7 @@ SVC、PendSV 的移植实现可对照 [FreeRTOS Cortex-M4F 端口](https://githu
 
 `EXC_RETURN` 是返回规则，不是原程序的返回地址；原 PC 保存在栈帧中。任务切换还需由移植代码保存 R4～R11 等状态，不能认为硬件自动保存了全部任务上下文。向量表与异常返回细节见 [Arm Cortex-M3 用户指南 §2.3、§4.3.4](https://documentation-service.arm.com/static/5ea823e69931941038df1af5)。
 
-## 中断结束后，为什么能运行另一个任务
+## 中断结束后，如何直接切换任务
 
 假设高优先级任务等待信号量，低优先级任务正在运行。ISR 中的关键调用为：
 
@@ -101,3 +101,17 @@ ISR 调用 `xTimerPendFunctionCallFromISR()`，将函数及参数送入定时器
 这种方式适合简短工作，缺点：函数共享守护任务的优先级，执行时间受队列前方命令影响；函数不能阻塞，以免耽误其他回调。队列满时提交会失败。参见 [FreeRTOS 官方中断管理章节](https://github.com/FreeRTOS/FreeRTOS-Kernel-Book/blob/main/ch07.md)。
 
 [任务调度：抢占与时间片](/notes/FreeRTOSScheduling) · [返回：嵌入式学习](/notes/EmbeddedLearningOverview)
+
+## 优先级过高的中断无法调用FreeRTOS提供的api
+
+以NVIC 使用 4 位中断优先级即优先级数值范围为 0～15为例
+```c
+#define configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY  5
+```
+那么0～4：不能调用 FreeRTOS API   5～15：可以调用允许在 ISR 中使用的 API
+
+这样设计是为了保护临界区资源，优先级高于configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY的中断，可以在FreeRTOS 内核在修改任务链表、队列等重要数据结构时响应，而小于的则被屏蔽。同时因为防止这些高优先级中断访问这些临界资源导致出错，所以不能调用FreeRTOS的api。
+
+总的来说：**界限之上的高优先级中断可以保持很快的响应，但不能调用 FreeRTOS API；界限及以下的中断可以调用指定的 FromISR API，但在 FreeRTOS 临界区期间可能被暂时屏蔽。**
+
+
