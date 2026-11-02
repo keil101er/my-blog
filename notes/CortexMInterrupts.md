@@ -102,7 +102,18 @@ ISR 调用 `xTimerPendFunctionCallFromISR()`，将函数及参数送入定时器
 
 [任务调度：抢占与时间片](/notes/FreeRTOSScheduling) · [返回：嵌入式学习](/notes/EmbeddedLearningOverview)
 
-## 优先级过高的中断无法调用FreeRTOS提供的api
+## 中断屏蔽
+
+**中断屏蔽就是通过设置 CPU 的中断屏蔽寄存器，或者关闭某些中断的使能，使 CPU 暂时不响应某些中断请求**
+
+
+| 寄存器 | 作用 |
+| --- | --- |
+| PRIMASK | 屏蔽所有可配置优先级的异常（不包括 NMI 和 HardFault）|
+| BASEPRI | 屏蔽优先级达到指定阈值及以下紧迫程度的可配置中断 |
+| FAULTMASK	| 屏蔽除 NMI 之外的异常 |
+
+configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY 参数可通过配置BASEPRI寄存器来屏蔽较低优先级的中断
 
 以NVIC 使用 4 位中断优先级即优先级数值范围为 0～15为例
 ```c
@@ -110,7 +121,7 @@ ISR 调用 `xTimerPendFunctionCallFromISR()`，将函数及参数送入定时器
 ```
 那么0～4：不能调用 FreeRTOS API   5～15：可以调用允许在 ISR 中使用的 API
 
-这样设计是为了保护临界区资源，优先级高于configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY的中断，可以在FreeRTOS 内核在修改任务链表、队列等重要数据结构时响应，而小于的则被屏蔽。同时因为防止这些高优先级中断访问这些临界资源导致出错，所以不能调用FreeRTOS的api。
+这样设计是为了保护临界区资源，优先级高于configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY的中断，可以在FreeRTOS 内核在修改任务链表、队列等重要临界数据结构时响应，而小于的则被屏蔽。同时因为防止这些高优先级中断访问这些临界资源导致出错，所以不能调用FreeRTOS的api。
 
 总的来说：**界限之上的高优先级中断可以保持很快的响应，但不能调用 FreeRTOS API；界限及以下的中断可以调用指定的 FromISR API，但在 FreeRTOS 临界区期间可能被暂时屏蔽。**
 
