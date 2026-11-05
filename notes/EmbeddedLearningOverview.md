@@ -24,14 +24,25 @@ description: 按 MCU 外设、工程组织、实时任务与调试分类整理�
 | --- | --- |
 | [嵌入式项目代码架构与分层](/notes/EmbeddedCodeArchitecture) | Drivers 提供芯片基础库，Core 配置当前 MCU，BSP 封装板上设备，APP 实现业务逻辑。 |
 
-### 实时任务
+### FreeRTOS
 
 | 文章 | 核心观点 |
 | --- | --- |
-| [FreeRTOS 任务：创建、状态与删除](/notes/FreeRTOSTask) | 任务是独立执行实例；等待条件满足后先就绪，再由调度器选中运行。 |
-| [FreeRTOS 优先级：通用查找与位图优化](/notes/FreeRTOSPrioritySelection) | 两种方法都用于查找最高就绪优先级，不改变抢占和时间片的规则。 |
+| [FreeRTOS 任务：创建、状态与删除](/notes/FreeRTOSTask) | 等待条件满足后任务先就绪，再由调度器选中运行。 |
 | [FreeRTOS 调度：抢占、时间片与空闲任务](/notes/FreeRTOSScheduling) | 高优先级就绪任务可抢占，同级时间片轮换不保证执行时间均分。 |
 | [FreeRTOS 时间：tick 换算与延时精度](/notes/FreeRTOSTiming) | 延时按 tick 计数到期；解除阻塞与再次获得 CPU 是两个时刻。 |
-| [FreeRTOS 队列：任务通信与队列集](/notes/FreeRTOSQueue) | 队列按固定大小复制数据；结合阻塞等待、来源标识和队列集组织任务通信，传指针时明确数据所有权。 |
-| [FreeRTOS 普通接口与 FromISR 接口](/notes/FreeRTOSFromISR) | 按任务或中断上下文选择接口，区分阻塞、唤醒与切换请求，并遵守中断优先级限制。 |
-| [Cortex-M 中断：从 NVIC 到任务切换](/notes/CortexMInterrupts) | NVIC 管理请求，向量表提供入口；硬件保存基本现场，PendSV 完成任务切换。 |
+| [FreeRTOS 队列：任务通信与队列集](/notes/FreeRTOSQueue) | 队列复制固定大小的数据，并可结合阻塞等待和队列集组织通信。 |
+| [FreeRTOS 普通接口与 FromISR 接口](/notes/FreeRTOSFromISR) | 按执行上下文选择接口，并遵守中断优先级限制。 |
+| [Cortex-M 中断：从 NVIC 到任务切换](/notes/CortexMInterrupts) | NVIC 管理请求，硬件保存现场，PendSV 完成任务切换。 |
+| [FreeRTOS 优先级：通用查找与位图优化](/notes/FreeRTOSPrioritySelection) | 通用查找与位图优化用于寻找最高就绪优先级。 |
+
+### Cortex-M 与调试
+
+| 文章 | 核心观点 |
+| --- | --- |
+| [Cortex-M 的 MSP 与 PSP：任务切换时怎样找到栈顶](/notes/CortexMStackPointers) | 每个任务的当前栈顶保存在 TCB 中，切换时保存旧 PSP、恢复新 PSP。 |
+| [Cortex-M 函数调用：栈里保存了什么](/notes/CortexMFunctionStack) | 编译器按返回地址、寄存器、局部变量和参数需求组织函数栈帧。 |
+| [Cortex-M 调试：断点、观察点与跟踪](/notes/CortexMDebugTrace) | 断点会改变执行时序，ITM 与 ETM 分别用于软件和指令跟踪。 |
+| [STM32 启动与烧录：从 Boot 选择到程序运行](/notes/STM32BootAndFlashing) | 启动需要有效栈顶和向量表，Flash Loader 在 RAM 中完成烧录。 |
+| [HardFault 定位：从堆栈找到出错指令](/notes/HardFaultStackAnalysis) | 先确定现场所用栈，再从异常栈帧读取 PC。 |
+| [代码从哪里运行：NOR、NAND 与 XIP](/notes/CodeStorageAndXIP) | XIP 直接取指并减少 RAM 占用，速度取决于具体硬件。 |

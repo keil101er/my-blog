@@ -19,9 +19,11 @@ export default defineConfig({
     // 顶部导航栏
     nav: [
       { text: '首页', link: '/' },
-      { text: '比赛回顾', link: '/notes/RoboMasterReview' },
-      { text: '学习记录', link: '/notes/MotorControlAlgorithm' },
-      { text: '项目实践', link: '/notes/WheelLeggedControlOverview' }
+      { text: '嵌入式', link: '/notes/EmbeddedLearningOverview' },
+      { text: 'C 语言', link: '/notes/CLearningOverview' },
+      { text: '电机控制', link: '/notes/MotorControlAlgorithm' },
+      { text: '项目实践', link: '/notes/WheelLeggedControlOverview' },
+      { text: '比赛回顾', link: '/notes/RoboMasterReview' }
     ],
 
     // 左侧目录侧边栏
@@ -52,14 +54,36 @@ export default defineConfig({
               link: '/notes/EmbeddedLearningOverview',
               collapsed: true,
               items: [
-                { text: '代码架构与分层', link: '/notes/EmbeddedCodeArchitecture' },
-                { text: 'FreeRTOS 任务与状态', link: '/notes/FreeRTOSTask' },
-                { text: '优先级查找与位图优化', link: '/notes/FreeRTOSPrioritySelection' },
-                { text: '抢占、时间片与空闲任务', link: '/notes/FreeRTOSScheduling' },
-                { text: 'tick 换算与延时精度', link: '/notes/FreeRTOSTiming' },
-                { text: 'FreeRTOS 队列与队列集', link: '/notes/FreeRTOSQueue' },
-                { text: '普通接口与 FromISR 接口', link: '/notes/FreeRTOSFromISR' },
-                { text: 'Cortex-M 中断与任务切换', link: '/notes/CortexMInterrupts' }
+                {
+                  text: '工程组织',
+                  items: [
+                    { text: '代码架构与分层', link: '/notes/EmbeddedCodeArchitecture' }
+                  ]
+                },
+                {
+                  text: 'FreeRTOS',
+                  items: [
+                    { text: '任务与状态', link: '/notes/FreeRTOSTask' },
+                    { text: '抢占、时间片与空闲任务', link: '/notes/FreeRTOSScheduling' },
+                    { text: 'tick 换算与延时精度', link: '/notes/FreeRTOSTiming' },
+                    { text: '队列与队列集', link: '/notes/FreeRTOSQueue' },
+                    { text: '普通接口与 FromISR 接口', link: '/notes/FreeRTOSFromISR' },
+                    { text: 'Cortex-M 中断与任务切换', link: '/notes/CortexMInterrupts' },
+                    { text: '优先级查找与位图优化', link: '/notes/FreeRTOSPrioritySelection' }
+                  ]
+                },
+                {
+                  text: 'Cortex-M 与调试',
+                  items: [
+                    { text: 'Cortex-M 中断与任务切换', link: '/notes/CortexMInterrupts' },
+                    { text: 'MSP、PSP 与任务栈', link: '/notes/CortexMStackPointers' },
+                    { text: '函数调用与栈帧', link: '/notes/CortexMFunctionStack' },
+                    { text: 'Cortex-M 调试与跟踪', link: '/notes/CortexMDebugTrace' },
+                    { text: 'STM32 启动与烧录', link: '/notes/STM32BootAndFlashing' },
+                    { text: 'HardFault 栈帧定位', link: '/notes/HardFaultStackAnalysis' },
+                    { text: '代码存储与 XIP', link: '/notes/CodeStorageAndXIP' }
+                  ]
+                }
               ]
             },
             {
@@ -70,6 +94,7 @@ export default defineConfig({
                 { text: '函数指针基础', link: '/notes/CFunctionPointers' },
                 { text: 'typedef 与类型别名', link: '/notes/CTypedef' },
                 { text: 'extern 与 static', link: '/notes/CExternStatic' },
+                { text: '变量存储位置与指针有效期', link: '/notes/CVariableStorage' },
                 { text: 'volatile 的作用与边界', link: '/notes/CVolatile' },
                 { text: '对象封装与接口多态', link: '/notes/CObjectOriented' },
                 { text: '对象生命周期与资源管理', link: '/notes/CObjectLifecycle' },

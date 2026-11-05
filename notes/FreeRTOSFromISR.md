@@ -33,7 +33,17 @@ ISR 可以调用满足中断使用要求的普通 C 函数，例如简单计算�
 
 即使把普通接口的等待时间设为 `0`，也不能在 ISR 中用它代替 `FromISR` 版本：两者使用的内核保护和调度方式也不同。
 
-**同一次 ISR 中，多次调用可以共用这个标志，只在第一次调用前初始化为 `pdFALSE`，最后统一请求切换。** 切换宏及调用方式以实际移植端口为准。
+同一次 ISR 多次调用 `FromISR` 接口时，可以共用一个 `xHigherPriorityTaskWoken` 标志：
+
+```c
+BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+
+xQueueSendToBackFromISR(xQueue, &data, &xHigherPriorityTaskWoken);
+xSemaphoreGiveFromISR(xSemaphore, &xHigherPriorityTaskWoken);
+portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+```
+
+只在第一次调用前初始化为 `pdFALSE`，最后统一请求切换。任一调用唤醒了更高优先级任务，标志就会被置为 `pdTRUE`。切换宏及调用方式以实际移植端口为准。
 
 以常见 Cortex-M 端口为例，切换请求通过 PendSV 处理，等当前 ISR 及需要先处理的中断退出后，才运行任务。若不请求切换，已唤醒的任务仍是就绪态，但可能要等到下一次调度机会。详见 [FreeRTOS 中断管理](https://github.com/FreeRTOS/FreeRTOS-Kernel-Book/blob/main/ch07.md)。
 

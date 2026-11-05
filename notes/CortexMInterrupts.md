@@ -54,11 +54,16 @@ SVC、PendSV 的移植实现可对照 [FreeRTOS Cortex-M4F 端口](https://githu
 
 任务代码在 Thread Mode（线程模式）运行，ISR 在 Handler Mode（处理程序模式）运行。普通异常进入、未使用浮点扩展栈帧时：
 
-1. **硬件保存基本现场**：将 R0～R3、R12、原 LR、PC、xPSR 压入当前使用的栈，由 MSP 或 PSP（进程栈指针）指向。
-2. **进入处理函数**：通过向量表取得入口，进入 Handler Mode，使用 MSP；LR 被写入特殊值 `EXC_RETURN`。
+1. **入栈顺序**：| xPSR | PC | LR | R12 | R3 | R2 | R1 | R0 |     MSP 或 PSP（进程栈指针）指向R0的地址。
+2. **进入处理函数**：通过向量表取得入口，进入 Handler Mode，使用 MSP；**LR 被写入特殊值 `EXC_RETURN`**。
 3. **异常返回**：根据 `EXC_RETURN` 确定返回 Thread Mode 还是 Handler Mode、从哪个栈恢复现场。
 
-`EXC_RETURN` 是返回规则，不是原程序的返回地址；原 PC 保存在栈帧中。任务切换还需由移植代码保存 R4～R11 等状态，不能认为硬件自动保存了全部任务上下文。向量表与异常返回细节见 [Arm Cortex-M3 用户指南 §2.3、§4.3.4](https://documentation-service.arm.com/static/5ea823e69931941038df1af5)。
+EXC_RETURN实际意义
+| 位 | 含义 | 0 | 1 |
+| --- | --- | --- | --- |
+| bit4 | 栈帧类型 | 扩展帧（额外压了 S0–S15 + FPSCR，共 26 个字）| 基本帧（8 个字：R0–R3、R12、LR、PC、xPSR）|
+| bit3 | 返回目标模式 | 返回 Handler 模式 (即中断嵌套) | 返回 Thread 模式 |
+| bit2 | 返回后用哪个栈 | MSP | PSP |
 
 ## 中断结束后，如何直接切换任务
 
@@ -91,8 +96,20 @@ portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 | 队列 | `xQueueSendFromISR()` 发送数据或缓冲区指针 | `xQueueReceive()` 接收，再处理数据 |
 | 任务通知 | `vTaskNotifyGiveFromISR()` 通知指定任务 | `ulTaskNotifyTake()` 等待，可清零或逐次递减计数 |
 
-以二进制信号量为例，在启用外设中断前创建 `xSemaphore = xSemaphoreCreateBinary()`，检查成功后创建处理任务。ISR 复用上一节的释放与切换代码，任务对应为：
+以二进制信号量为例，在启用外设中断前创建 `xSemaphore = xSemaphoreCreateBinary()`，检查成功后创建处理任务。ISR 复用上一节的释放与切换代码，处理任务可写为：
 
+```c
+void ProcessingTask(void *argument)
+{
+  for (;;) {
+    if (xSemaphoreTake(xSemaphore, portMAX_DELAY) == pdPASS) {
+      ProcessReceivedData();
+    }
+  }
+}
+```
+
+`ProcessReceivedData()` 表示具体的数据处理函数。任务阻塞期间不占用 CPU；ISR 释放信号量后，任务才进入就绪态。
 
 ### 把函数交给守护任务执行
 
@@ -100,29 +117,24 @@ ISR 调用 `xTimerPendFunctionCallFromISR()`，将函数及参数送入定时器
 
 这种方式适合简短工作，缺点：函数共享守护任务的优先级，执行时间受队列前方命令影响；函数不能阻塞，以免耽误其他回调。队列满时提交会失败。参见 [FreeRTOS 官方中断管理章节](https://github.com/FreeRTOS/FreeRTOS-Kernel-Book/blob/main/ch07.md)。
 
-[任务调度：抢占与时间片](/notes/FreeRTOSScheduling) · [返回：嵌入式学习](/notes/EmbeddedLearningOverview)
-
 ## 中断屏蔽
 
-**中断屏蔽就是通过设置 CPU 的中断屏蔽寄存器，或者关闭某些中断的使能，使 CPU 暂时不响应某些中断请求**
-
+中断屏蔽通过设置 CPU 的屏蔽寄存器或关闭中断使能，使处理器暂时不响应相应请求。
 
 | 寄存器 | 作用 |
 | --- | --- |
-| PRIMASK | 屏蔽所有可配置优先级的异常（不包括 NMI 和 HardFault）|
-| BASEPRI | 屏蔽优先级达到指定阈值及以下紧迫程度的可配置中断 |
-| FAULTMASK	| 屏蔽除 NMI 之外的异常 |
+| PRIMASK | 屏蔽所有可配置优先级的异常，不包括 NMI 和 HardFault |
+| BASEPRI | 屏蔽指定阈值及更低紧急程度的可配置中断 |
+| FAULTMASK | 屏蔽除 NMI 之外的异常 |
 
-configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY 参数可通过配置BASEPRI寄存器来屏蔽较低优先级的中断
+`configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY` 可通过 BASEPRI 限制临界区期间能够响应的中断。以 4 位 NVIC 优先级为例：
 
-以NVIC 使用 4 位中断优先级即优先级数值范围为 0～15为例
 ```c
 #define configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY  5
 ```
-那么0～4：不能调用 FreeRTOS API   5～15：可以调用允许在 ISR 中使用的 API
 
-这样设计是为了保护临界区资源，优先级高于configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY的中断，可以在FreeRTOS 内核在修改任务链表、队列等重要临界数据结构时响应，而小于的则被屏蔽。同时因为防止这些高优先级中断访问这些临界资源导致出错，所以不能调用FreeRTOS的api。
+此时，数值 0～4 的中断不能调用 FreeRTOS API；数值 5～15 的中断可以调用允许在 ISR 中使用的 API。前者的紧急程度更高，在内核修改任务链表、队列等数据时仍可响应，因此不能同时访问这些内核数据；后者在临界区期间可能被暂时屏蔽。
 
-总的来说：**界限之上的高优先级中断可以保持很快的响应，但不能调用 FreeRTOS API；界限及以下的中断可以调用指定的 FromISR API，但在 FreeRTOS 临界区期间可能被暂时屏蔽。**
+[下一篇：优先级查找与位图优化](/notes/FreeRTOSPrioritySelection) · [返回：嵌入式学习](/notes/EmbeddedLearningOverview)
 
 

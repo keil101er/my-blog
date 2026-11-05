@@ -57,4 +57,4 @@ BaseType_t result = xTaskCreate(
 
 因此，反复创建和自删任务的程序，必须让空闲任务有机会执行。空闲任务以优先级 0 自动创建，相关调度行为见 [抢占、时间片与空闲任务](/notes/FreeRTOSScheduling)。
 
-[下一篇：最高就绪优先级的查找](/notes/FreeRTOSPrioritySelection) · [返回：嵌入式学习](/notes/EmbeddedLearningOverview)
+[下一篇：抢占、时间片与空闲任务](/notes/FreeRTOSScheduling) · [返回：嵌入式学习](/notes/EmbeddedLearningOverview)
