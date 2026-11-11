@@ -55,6 +55,13 @@ export default defineConfig({
               collapsed: true,
               items: [
                 {
+                  text: '工业通信',
+                  items: [
+                    { text: 'CAN 仲裁、错误处理与位时序', link: '/notes/CAN' },
+                    { text: 'EtherCAT 原理与工作流程', link: '/notes/EtherCAT' }
+                  ]
+                },
+                {
                   text: '工程组织',
                   items: [
                     { text: '代码架构与分层', link: '/notes/EmbeddedCodeArchitecture' }
