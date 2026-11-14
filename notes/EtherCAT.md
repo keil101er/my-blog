@@ -64,7 +64,7 @@ APRD、APWR 等命令使用自增寻址。访问第 N 个从站时，初始位�
 
 主站给过程数据分配逻辑地址，再配置各从站的 FMMU（现场总线内存管理单元），将逻辑范围映射到 ESC 的内部存储区。运行时，LRD、LWR、LRW 根据起始逻辑地址和长度访问这些范围。
 
-逻辑地址是协议中的 32 位地址，**不是主站或 MCU 的真实指针，也不要求主站分配完整的 4 GB 内存。** 主站软件维护实际使用的过程数据映像，再负责与报文交换数据。
+逻辑地址是协议中的 32 位地址， 主站软件维护实际使用的过程数据映像，再负责与报文交换数据。
 
 通常在启动时确定 PDO 布局，运行期间保持稳定；但从站判断的是逻辑地址与访问方向，不要求相关字节永远位于整帧的同一个绝对偏移。
 
@@ -136,7 +136,7 @@ CoE（CANopen over EtherCAT）复用 CANopen 的对象字典和通信机制。�
 
 位长用于确定传输布局和后续偏移，并供设备校验。对象字典虽然有类型信息，映射描述仍需明确占用多少位；不能任意填写与设备规则不符的长度。
 
-RxPDO 映射对象常用 `0x1600～0x17FF`，TxPDO 常用 `0x1A00～0x1BFF`。在本文布局下，`0x1C12` 分配 RxPDO，`0x1C13` 分配 TxPDO；多个 PDO 按分配顺序及各自映射顺序形成过程数据布局。**分配表既选择启用哪些 PDO，也决定顺序，不只是开关。**
+RxPDO 映射对象常用 `0x1600～0x17FF`，TxPDO 常用 `0x1A00～0x1BFF`。在本文布局下，`0x1C12` 分配 RxPDO，`0x1C13` 分配 TxPDO；多个 PDO 按分配顺序及各自映射顺序形成过程数据布局。**分配表既选择启用哪些 PDO，也决定顺序。**
 
 从站固件决定支持哪些对象、哪些映射可选或可修改，主站在能力范围内配置。支持重映射时，通常在 PREOP 中先禁用相关分配或清零条目数，再写条目、恢复数量，具体顺序按设备要求执行。固定映射设备不一定接受这些写操作。
 
@@ -215,13 +215,38 @@ RxPDO 映射对象常用 `0x1600～0x17FF`，TxPDO 常用 `0x1A00～0x1BFF`。�
     → 将新的 TxPDO 写入 ESC，供之后的访问读取
 ```
 
-反馈属于哪个采样时刻、相对指令延迟多少周期，取决于同步模式和应用调度，不能默认返回帧已经包含 MCU 针对本次指令计算的结果。
+反馈属于哪个采样时刻、相对指令延迟多少周期，取决于同步模式和应用调度。
 
 ### 通信快还需要动作同步
 
 DC（Distributed Clocks，分布式时钟）用于同步支持该功能的从站本地时钟，并补偿传播延迟和时钟漂移。设备可据此产生 SYNC0/SYNC1 事件，在约定时刻采样或更新输出，而不是单纯依赖帧到达时刻。**SM 保证数据访问一致性，DC 提供共同时间基准。**
 
-SYNC0 是配置产生的定时事件，不等同于“收到一帧”的中断。主站仍需在应用使用数据之前及时送达数据，DC 不会消除 MCU 计算与调度耗时。见 [Beckhoff：Distributed Clocks](https://infosys.beckhoff.com/content/1033/ethercatsystem/2469118347.html)。
+SYNC0和SYNC1 是配置产生的定时事件，不等同于“收到一帧”的中断。主站仍需在应用使用数据之前及时送达数据，DC 不会消除 MCU 计算与调度耗时。见 [Beckhoff：Distributed Clocks](https://infosys.beckhoff.com/content/1033/ethercatsystem/2469118347.html)。
 
+## 同步模式
+
+| 同步参数 | 主要决定的时机 | 项目中的工作 |
+|---|---|---|
+| `sSyncManOutPar(0x1c32:01)` | 输出方向的应用处理时机 | 通过 `ECAT_Application()` 处理通信数据 |
+| `sSyncManInPar(0x1c33:01)` | 输入数据的映射／更新时间 | 通过 `PDO_InputMapping()` 将已收到的 CAN 数据写入 ESC，供主站读取 |
+
+```c
+#define     SYNCTYPE_FREERUN            0x0000
+#define     SYNCTYPE_SM_SYNCHRON        0x0001
+#define     SYNCTYPE_SM2_SYNCHRON       0x0022
+#define     SYNCTYPE_DCSYNC0            0x0002
+#define     SYNCTYPE_DCSYNC1            0x0003
+```
+| 设置位置 | 同步类型 | 含义 |
+|---|---|---|
+| 输出参数 `0x1C32:01` | `SM_SYNCHRON` | 输出方向跟随 SM2 输出事件 |
+| 输入参数 `0x1C33:01` | `SM_SYNCHRON` | 输入方向跟随 SM3 输入读取事件 |
+| 输入参数 `0x1C33:01` | `SM2_SYNCHRON` | 输入方向也跟随 SM2 输出事件 |
+
+两个方向的事件可单独配置同步模式
+
+- Free Run：从站ECAT_Application和PDO_InputMapping不与接收PDO或者DC触发中断同步
+- SM（同步模式）：ECAT_Application和PDO_InputMapping在接收PDO后同步执行
+- DC（分布式时钟）：在DC触发的定时中断中执行
 
 [返回：嵌入式学习](/notes/EmbeddedLearningOverview)

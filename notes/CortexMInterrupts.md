@@ -20,15 +20,47 @@ description: 串起异常分类、软件触发、向量表、现场保存与恢�
 
 NVIC（嵌套向量中断控制器）管理外部中断的使能、挂起和优先级。**挂起表示请求正在等待响应，不代表 ISR 已经执行。** 优先级和屏蔽条件允许时，内核才进入 ISR。接口见 [CMSIS NVIC 文档](https://arm-software.github.io/CMSIS_6/main/Core/group__NVIC__gr.html)。
 
+## 中断的大致流程
+
+1. 外设发生事件，设置中断标志位(使能中断后才会向NVIC发送中断请求)
+
+2. NVIC 接收到中断请求，将中断标记为Pending,
+   此时根据：
+  - 中断是否在 NVIC 中使能？
+  - 是否被 PRIMASK、BASEPRI 等机制屏蔽？
+  - 当前 CPU 是否正在处理更高或相同抢占优先级的中断？
+  判断是否让cpu执行ISR
+
+3. CPU 响应中断，自动保存现场
+
+4. CPU 切换到 Handler 模式
+- 将当前异常状态更新为 Active。
+
+- 更新 IPSR，记录正在执行的异常编号。
+
+- 使用 MSP 作为 Handler 模式下的栈指针。
+
+- 将 LR 设置为特殊的 EXC_RETURN 值。
+
+5. 通过中断向量表找到 ISR
+
+6. ISR 执行，并处理外设中断标志位
+|状态| 所属位置 |	作用 |	通常如何清除 |
+|--- | --- | --- | --- |
+| 外设中断标志位 | TIM、USART、EXTI 等外设 | 记录具体中断事件 |	根据外设寄存器规则，由硬件或软件清除 |
+| Pending	            | NVIC	| 记录等待 CPU 处理的中断请求 | CPU 接受中断时自动清除，也可软件清除 |
+| Active	            | NVIC	| 记录当前正在处理的中断	| 对应异常退出时由硬件自动清除 |
+
+7. ISR 执行完毕，触发异常返回
+   
 ## 软件触发
 
 ```c
 NVIC_SetPendingIRQ(USART1_IRQn);
 ```
 
-这会设置 USART1 的 NVIC 挂起位，但不会制造串口接收数据，也不会设置外设接收标志。因此，即使进入 ISR，HAL 检查外设标志后也不一定调用接收回调。
+这会设置 USART1 的 NVIC 挂起位，但不会制造串口接收数据，也不会设置外设中断标志。因此，即使进入 ISR，HAL 检查外设标志后也不一定调用回调。
 
-“软中断”需看语境：它可以指上述软件触发的外部中断，也可能泛指软件触发的异常。
 
 | 机制 | 触发方式 | 常见用途 |
 | --- | --- | --- |
@@ -36,7 +68,7 @@ NVIC_SetPendingIRQ(USART1_IRQn);
 | SVC 系统异常 | 执行 `SVC` 指令 | 请求系统服务；部分 FreeRTOS 端口启动首个任务 |
 | PendSV 系统异常 | 设置 `PENDSVSET` | FreeRTOS 通常设为最低优先级，用于任务切换 |
 
-SVC、PendSV 的移植实现可对照 [FreeRTOS Cortex-M4F 端口](https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/main/portable/GCC/ARM_CM4F/port.c)。
+SVC、PendSV 的移植实现可对照 。
 
 ## 向量表保存入口地址，VTOR 指定表的位置
 
