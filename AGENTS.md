@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-This repository is a VitePress site for a Chinese technical blog. Root-level Markdown files (`index.md`, `api-examples.md`, and `markdown-examples.md`) provide the home page and examples. Long-form articles belong in `notes/` (for example, `notes/RoboMasterReview.md`). Site configuration lives in `.vitepress/config.mts`; theme overrides are in `.vitepress/theme/` (TypeScript and CSS). Store referenced images in `images/` and videos in `video/`, using paths that work with the configured `/my-blog/` base URL. Generated output under `.vitepress/dist/` should not be edited manually.
+This repository is a VitePress site for a Chinese technical blog. The root-level `index.md` provides the home page, and long-form articles belong in `notes/` (for example, `notes/competition/RoboMasterReview.md`). Unfinished drafts can be placed in `drafts/` (excluded from builds). Site configuration lives in `.vitepress/config.mts`; theme overrides are in `.vitepress/theme/` (TypeScript and CSS). Store referenced images in `images/` and videos in `video/`, using paths that work with the configured `/my-blog/` base URL. Generated output under `.vitepress/dist/` should not be edited manually.
 
 ## Build, Test, and Development Commands
 

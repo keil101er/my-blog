@@ -8,11 +8,11 @@
 
 | 专题 | 内容 | 阅读入口 |
 | --- | --- | --- |
-| 比赛回顾 | RoboMaster 备赛、机器人调试、整机联调与赛场复盘 | [RoboMaster 比赛回顾](./notes/RoboMasterReview.md) |
-| 电机控制 | FOC 控制链路、Simulink 代码生成、磁链观测器与 PLL、LESO 速度环抗扰 | [电机控制学习](./notes/MotorControlAlgorithm.md) |
-| 嵌入式开发 | 工程分层、FreeRTOS 任务与调度、时间管理、队列通信和中断接口 | [嵌入式学习](./notes/EmbeddedLearningOverview.md) |
-| C 语言 | 函数指针、类型别名、存储与作用域、对象封装、生命周期和多态 | [C 语言学习](./notes/CLearningOverview.md) |
-| 轮腿机器人 | 轮腿平衡控制、LQR 建模与增益调度、五连杆运动学与 VMC | [轮腿机器人控制项目总览](./notes/WheelLeggedControlOverview.md) |
+| 比赛回顾 | RoboMaster 备赛、机器人调试、整机联调与赛场复盘 | [RoboMaster 比赛回顾](./notes/competition/RoboMasterReview.md) |
+| 电机控制 | FOC 控制链路、Simulink 代码生成、磁链观测器与 PLL、LESO 速度环抗扰 | [电机控制学习](./notes/motor-control/MotorControlAlgorithm.md) |
+| 嵌入式开发 | CAN/EtherCAT 通信、工程分层、FreeRTOS 任务调度与队列、Cortex-M 中断、调试与启动 | [嵌入式学习](./notes/embedded/EmbeddedLearningOverview.md) |
+| C 语言 | 函数指针、类型别名、存储与作用域、对象封装、生命周期和多态 | [C 语言学习](./notes/c/CLearningOverview.md) |
+| 轮腿机器人 | 轮腿平衡控制、LQR 建模与增益调度、五连杆运动学与 VMC | [轮腿机器人控制项目总览](./notes/projects/WheelLeggedControlOverview.md) |
 
 想了解项目经历，可以从比赛回顾读起；查阅知识点，可以直接进入对应专题索引。包含公式、图片和视频的文章建议在博客站点阅读。
 
@@ -43,9 +43,16 @@ npm run docs:preview
 ```text
 .
 ├── index.md                 # 博客首页
-├── notes/                   # 文章与专题索引
+├── notes/                   # 按专题分类的文章与索引
+│   ├── embedded/            # 嵌入式（通信、FreeRTOS、Cortex-M）
+│   ├── c/                   # C 语言
+│   ├── motor-control/       # 电机控制
+│   ├── projects/            # 项目实践
+│   └── competition/         # 比赛回顾
+├── drafts/                  # 未完成草稿（不参与构建）
 ├── images/                  # 文章图片
 ├── video/                   # 文章视频
+├── public/                  # 静态资源（如 favicon）
 ├── .vitepress/
 │   ├── config.mts           # 站点配置、导航与侧边栏
 │   └── theme/               # 主题扩展与样式

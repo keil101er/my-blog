@@ -6,7 +6,10 @@ export default defineConfig({
   lang: 'zh-CN',
   title: "个人技术博客",
   description: "记录学习过程与项目沉淀",
-  srcExclude: ['AGENTS.md', 'api-examples.md', 'markdown-examples.md'],
+  head: [
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/my-blog/favicon.svg' }]
+  ],
+  srcExclude: ['AGENTS.md', 'README.md', 'drafts/**'],
   
   // 开启 LaTeX 数学公式支持
   markdown: {
@@ -19,11 +22,11 @@ export default defineConfig({
     // 顶部导航栏
     nav: [
       { text: '首页', link: '/' },
-      { text: '嵌入式', link: '/notes/EmbeddedLearningOverview' },
-      { text: 'C 语言', link: '/notes/CLearningOverview' },
-      { text: '电机控制', link: '/notes/MotorControlAlgorithm' },
-      { text: '项目实践', link: '/notes/WheelLeggedControlOverview' },
-      { text: '比赛回顾', link: '/notes/RoboMasterReview' }
+      { text: '嵌入式', link: '/notes/embedded/EmbeddedLearningOverview' },
+      { text: 'C 语言', link: '/notes/c/CLearningOverview' },
+      { text: '电机控制', link: '/notes/motor-control/MotorControlAlgorithm' },
+      { text: '项目实践', link: '/notes/projects/WheelLeggedControlOverview' },
+      { text: '比赛回顾', link: '/notes/competition/RoboMasterReview' }
     ],
 
     // 左侧目录侧边栏
@@ -32,7 +35,7 @@ export default defineConfig({
         {
           text: '比赛回顾',
           items: [
-            { text: 'RoboMaster 比赛回顾', link: '/notes/RoboMasterReview' }
+            { text: 'RoboMaster 比赛回顾', link: '/notes/competition/RoboMasterReview' }
           ]
         },
         {
@@ -40,74 +43,73 @@ export default defineConfig({
           items: [
             {
               text: '电机控制学习',
-              link: '/notes/MotorControlAlgorithm',
+              link: '/notes/motor-control/MotorControlAlgorithm',
               collapsed: true,
               items: [
-                { text: 'FOC 控制链路', link: '/notes/MotorControlFOC' },
-                { text: 'Simulink 代码生成', link: '/notes/SimulinkCodeGeneration' },
-                { text: '磁链观测器与 PLL', link: '/notes/SensorlessFOCObserver' },
-                { text: 'LESO 速度环抗扰', link: '/notes/LESOSpeedControl' }
+                { text: 'FOC 控制链路', link: '/notes/motor-control/MotorControlFOC' },
+                { text: 'Simulink 代码生成', link: '/notes/motor-control/SimulinkCodeGeneration' },
+                { text: '磁链观测器与 PLL', link: '/notes/motor-control/SensorlessFOCObserver' },
+                { text: 'LESO 速度环抗扰', link: '/notes/motor-control/LESOSpeedControl' }
               ]
             },
             {
               text: '嵌入式学习',
-              link: '/notes/EmbeddedLearningOverview',
+              link: '/notes/embedded/EmbeddedLearningOverview',
               collapsed: true,
               items: [
                 {
                   text: '工业通信',
                   items: [
-                    { text: 'CAN 仲裁、错误处理与位时序', link: '/notes/CAN' },
-                    { text: 'EtherCAT 原理与工作流程', link: '/notes/EtherCAT' }
+                    { text: 'CAN 仲裁、错误处理与位时序', link: '/notes/embedded/communication/CAN' },
+                    { text: 'EtherCAT 原理与工作流程', link: '/notes/embedded/communication/EtherCAT' }
                   ]
                 },
                 {
                   text: '工程组织',
                   items: [
-                    { text: '代码架构与分层', link: '/notes/EmbeddedCodeArchitecture' }
+                    { text: '代码架构与分层', link: '/notes/embedded/EmbeddedCodeArchitecture' }
                   ]
                 },
                 {
                   text: 'FreeRTOS',
                   items: [
-                    { text: '任务与状态', link: '/notes/FreeRTOSTask' },
-                    { text: '抢占、时间片与空闲任务', link: '/notes/FreeRTOSScheduling' },
-                    { text: 'tick 换算与延时精度', link: '/notes/FreeRTOSTiming' },
-                    { text: '队列与队列集', link: '/notes/FreeRTOSQueue' },
-                    { text: '普通接口与 FromISR 接口', link: '/notes/FreeRTOSFromISR' },
-                    { text: 'Cortex-M 中断与任务切换', link: '/notes/CortexMInterrupts' },
-                    { text: '优先级查找与位图优化', link: '/notes/FreeRTOSPrioritySelection' }
+                    { text: '任务与状态', link: '/notes/embedded/freertos/FreeRTOSTask' },
+                    { text: '抢占、时间片与空闲任务', link: '/notes/embedded/freertos/FreeRTOSScheduling' },
+                    { text: 'tick 换算与延时精度', link: '/notes/embedded/freertos/FreeRTOSTiming' },
+                    { text: '队列与队列集', link: '/notes/embedded/freertos/FreeRTOSQueue' },
+                    { text: '普通接口与 FromISR 接口', link: '/notes/embedded/freertos/FreeRTOSFromISR' },
+                    { text: 'Cortex-M 中断与任务切换', link: '/notes/embedded/cortex-m/CortexMInterrupts' },
+                    { text: '优先级查找与位图优化', link: '/notes/embedded/freertos/FreeRTOSPrioritySelection' }
                   ]
                 },
                 {
                   text: 'Cortex-M 与调试',
                   items: [
-                    { text: 'Cortex-M 中断与任务切换', link: '/notes/CortexMInterrupts' },
-                    { text: 'MSP、PSP 与任务栈', link: '/notes/CortexMStackPointers' },
-                    { text: '函数调用与栈帧', link: '/notes/CortexMFunctionStack' },
-                    { text: 'Cortex-M 调试与跟踪', link: '/notes/CortexMDebugTrace' },
-                    { text: 'STM32 启动与烧录', link: '/notes/STM32BootAndFlashing' },
-                    { text: 'HardFault 栈帧定位', link: '/notes/HardFaultStackAnalysis' },
-                    { text: '代码存储与 XIP', link: '/notes/CodeStorageAndXIP' }
+                    { text: 'MSP、PSP 与任务栈', link: '/notes/embedded/cortex-m/CortexMStackPointers' },
+                    { text: '函数调用与栈帧', link: '/notes/embedded/cortex-m/CortexMFunctionStack' },
+                    { text: 'Cortex-M 调试与跟踪', link: '/notes/embedded/cortex-m/CortexMDebugTrace' },
+                    { text: 'STM32 启动与烧录', link: '/notes/embedded/cortex-m/STM32BootAndFlashing' },
+                    { text: 'HardFault 栈帧定位', link: '/notes/embedded/cortex-m/HardFaultStackAnalysis' },
+                    { text: '代码存储与 XIP', link: '/notes/embedded/cortex-m/CodeStorageAndXIP' }
                   ]
                 }
               ]
             },
             {
               text: 'C 语言学习',
-              link: '/notes/CLearningOverview',
+              link: '/notes/c/CLearningOverview',
               collapsed: true,
               items: [
-                { text: '函数指针基础', link: '/notes/CFunctionPointers' },
-                { text: 'typedef 与类型别名', link: '/notes/CTypedef' },
-                { text: 'extern 与 static', link: '/notes/CExternStatic' },
-                { text: '变量存储位置与指针有效期', link: '/notes/CVariableStorage' },
-                { text: 'volatile 的作用与边界', link: '/notes/CVolatile' },
-                { text: '对象封装与接口多态', link: '/notes/CObjectOriented' },
-                { text: '对象生命周期与资源管理', link: '/notes/CObjectLifecycle' },
-                { text: '静态对象数组与对象池', link: '/notes/CStaticObjectsAndPool' },
-                { text: '继承布局与多态调用', link: '/notes/CInheritancePolymorphism' },
-                { text: '单例、深浅拷贝与内存对齐', link: '/notes/CObjectStorage' }
+                { text: '函数指针基础', link: '/notes/c/CFunctionPointers' },
+                { text: 'typedef 与类型别名', link: '/notes/c/CTypedef' },
+                { text: 'extern 与 static', link: '/notes/c/CExternStatic' },
+                { text: '变量存储位置与指针有效期', link: '/notes/c/CVariableStorage' },
+                { text: 'volatile 的作用与边界', link: '/notes/c/CVolatile' },
+                { text: '对象封装与接口多态', link: '/notes/c/CObjectOriented' },
+                { text: '对象生命周期与资源管理', link: '/notes/c/CObjectLifecycle' },
+                { text: '静态对象数组与对象池', link: '/notes/c/CStaticObjectsAndPool' },
+                { text: '继承布局与多态调用', link: '/notes/c/CInheritancePolymorphism' },
+                { text: '单例、深浅拷贝与内存对齐', link: '/notes/c/CObjectStorage' }
               ]
             }
           ]
@@ -117,11 +119,11 @@ export default defineConfig({
           items: [
             {
               text: '轮腿机器人控制',
-              link: '/notes/WheelLeggedControlOverview',
+              link: '/notes/projects/WheelLeggedControlOverview',
               collapsed: true,
               items: [
-                { text: 'LQR 建模与增益调度', link: '/notes/WheelLeggedLQR' },
-                { text: '五连杆运动学与 VMC', link: '/notes/WheelLeggedVMC' }
+                { text: 'LQR 建模与增益调度', link: '/notes/projects/WheelLeggedLQR' },
+                { text: '五连杆运动学与 VMC', link: '/notes/projects/WheelLeggedVMC' }
               ]
             }
           ]
@@ -143,6 +145,7 @@ export default defineConfig({
     },
 
     outline: {
+      level: [2, 3],
       label: '本页目录'
     },
 
